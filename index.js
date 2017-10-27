@@ -1,17 +1,20 @@
 const music = require('./src/music/');
 const mastodon = require('./src/mastodon');
 const twitter = require('./src/twitter');
-const bt = require('./src/bluetooth');
-var EventEmitter = require('events').EventEmitter;
-var ev = new EventEmitter();
+const web = require('./src/web');
 var path = require('path');
-
+var EventEmitter = require('events').EventEmitter;
+var ev = new EventEmitter;
+// var fs = require('fs');
+ev.on('connect', function (flag) {
+  if(flag){
+    console.log('接続されました');
+  }
+});
 // var localPath = music.getRandomMusicPath();
 // music.play(localPath);
 // mastodon.toot('ラズパイからNodejsを使用した投稿!!');
-twitter.tweet('TEST');
-
-// var fs = require('fs');
+// twitter.tweet('TEST');
 
 // fs.writeFileSync('/sys/class/gpio/export', 16);
 // fs.writeFileSync('/sys/class/gpio/gpio16/direction', 'out');
@@ -21,7 +24,3 @@ twitter.tweet('TEST');
 //  fs.writeFileSync('/sys/class/gpio/unexport', 16);
 //  console.log('LEDをオフにしました');
 // });
-
-ev.on('writeBT', function (text) {
-  console.log('EVENT!! ' + text);
-})

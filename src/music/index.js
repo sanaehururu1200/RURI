@@ -14,6 +14,10 @@ module.exports.pause = function () {
   player.pause();
 }
 
+module.exports.volume = function (volume) {
+  player.volume(volume);
+}
+
 module.exports.play = function (path) {
   player.play(path);
 }
