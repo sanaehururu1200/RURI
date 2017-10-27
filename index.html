@@ -13,10 +13,35 @@
       text-align: center;
       font-family: 'Roboto', sans-serif;
     }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 160px;
+      height: 20px;
+      margin: 10px 50px;
+      background: linear-gradient(to right, #426AB3 0%, #2A5CAA 100%);
+      background-size: 150px 10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      outline: none;
+    }
+
+    input[type="range"]:first-of-type {
+      margin-top: 40px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #ddd;
+      position: relative;
+      z-index: 3;
+    }
   </style>
   <script>
     $(function () {
-      $('#volume').on('change',function(){
+      $('#volume').on('input',function(){
       io.connect().emit('music', 'volume',$(this).val())
       });
     });
@@ -34,7 +59,10 @@
   var socket = io.connect();
   socket.emit('music', 'play')
   ">▶️</button>
-  <input type="range" max="100" min="0" id="volume">音量</input>
+  <br>
+  <div style="background-color: #000;"></div>
+    <p style="display: inline-block;">0%</p><input type="range" max="100" min="0" id="volume" style="display: inline-block;"><p style="display: inline-block">100%</p>
+  </div>
 </body>
 
 </html>
