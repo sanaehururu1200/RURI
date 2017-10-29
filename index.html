@@ -13,6 +13,7 @@
       text-align: center;
       font-family: 'Roboto', sans-serif;
     }
+
     input[type="range"] {
       -webkit-appearance: none;
       width: 160px;
@@ -38,12 +39,39 @@
       position: relative;
       z-index: 3;
     }
+
+    #play {
+      display: inline-block;
+      padding: 0.3em 1em;
+      text-decoration: none;
+      background: #fff;
+      color: #426AB3;
+      border: solid 2px #426AB3;
+      border-radius: 10px;
+      transition: .3s;
+      width: 200px;
+      height: 90px;
+      font-size: 20px;
+    }
+
+    #play:hover {
+      background: #426AB3;
+      color: white;
+    }
   </style>
   <script>
     $(function () {
-      $('#volume').on('input',function(){
-      io.connect().emit('music', 'volume',$(this).val())
+      io.connect().emit('getMusicList');
+      $('#volume').on('input', function () {
+        io.connect().emit('music', 'volume', $(this).val())
       });
+      io.connect().on('connect', function (files) {
+        console.dir(files);
+        console.dir('test');
+        $.each(files.list,function(index, elem) {
+          $('<li></li>').append(elem).appendTo('#result');
+        });
+      }); 
     });
   </script>
 </head>
@@ -54,14 +82,21 @@
   <h3>音楽のアップロード</h3>
   <input type="file" id="fileInput" accept='audio/mp3'></input>
   <hr>
+  <ul id="result"></ul>
   <h3>音楽再生</h3>
-  <button onclick="
+  <button style="display: inline-block;" id="play" onclick="
   var socket = io.connect();
   socket.emit('music', 'play')
-  ">▶️</button>
+  ">ランダムに再生</button>
+  <button style="display: inline-block;" id="play" onclick="
+  var socket = io.connect();
+  socket.emit('music', 'pause');
+  ">一時停止・再開</button>
   <br>
   <div style="background-color: #000;"></div>
-    <p style="display: inline-block;">0%</p><input type="range" max="100" min="0" id="volume" style="display: inline-block;"><p style="display: inline-block">100%</p>
+  <p style="display: inline-block;">0%</p>
+  <input type="range" value="100" max="100" min="0" id="volume" style="display: inline-block;">
+  <p style="display: inline-block">100%</p>
   </div>
 </body>
 

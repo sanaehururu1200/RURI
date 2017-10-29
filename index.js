@@ -2,15 +2,9 @@ const music = require('./src/music/');
 const mastodon = require('./src/mastodon');
 const twitter = require('./src/twitter');
 const web = require('./src/web');
+const wikipedia = require('./src/wikipedia');
 var path = require('path');
-var EventEmitter = require('events').EventEmitter;
-var ev = new EventEmitter;
 // var fs = require('fs');
-ev.on('connect', function (flag) {
-  if(flag){
-    console.log('接続されました');
-  }
-});
 // var localPath = music.getRandomMusicPath();
 // music.play(localPath);
 // mastodon.toot('ラズパイからNodejsを使用した投稿!!');
