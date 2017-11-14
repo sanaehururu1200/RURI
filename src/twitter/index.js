@@ -4,7 +4,6 @@ module.exports.tweet = function(text) {
   var fs = require('fs');
   var file = fs.readFileSync("./setting.json", "utf-8");
   var json = JSON.parse(file);
-  console.dir(json);
   var client = new Twitter({
   consumer_key: json['twitter']['consumer_key'],
   consumer_secret: json['twitter']['consumer_secret'],

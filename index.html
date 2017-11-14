@@ -7,56 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <link href="./dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./dist/css/flat-ui.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">  
   <style>
     body {
       text-align: center;
       font-family: 'Roboto', sans-serif;
-    }
-
-    input[type="range"] {
-      -webkit-appearance: none;
-      width: 160px;
-      height: 20px;
-      margin: 10px 50px;
-      background: linear-gradient(to right, #426AB3 0%, #2A5CAA 100%);
-      background-size: 150px 10px;
-      background-position: center;
-      background-repeat: no-repeat;
-      overflow: hidden;
-      outline: none;
-    }
-
-    input[type="range"]:first-of-type {
-      margin-top: 40px;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      background: #ddd;
-      position: relative;
-      z-index: 3;
-    }
-
-    #play {
-      display: inline-block;
-      padding: 0.3em 1em;
-      text-decoration: none;
-      background: #fff;
-      color: #426AB3;
-      border: solid 2px #426AB3;
-      border-radius: 10px;
-      transition: .3s;
-      width: 200px;
-      height: 90px;
-      font-size: 20px;
-    }
-
-    #play:hover {
-      background: #426AB3;
-      color: white;
     }
   </style>
   <script>
