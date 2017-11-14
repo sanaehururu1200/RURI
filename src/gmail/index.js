@@ -1,6 +1,5 @@
 const Gmail = require('node-gmail-api');
 const fs = require('fs');
-require('./refresh.js')
 var file = fs.readFileSync("./setting.json", "utf-8");
 var json = JSON.parse(file);
 var access_token = refreshRequest();
