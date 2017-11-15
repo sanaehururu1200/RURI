@@ -1,14 +1,16 @@
-const music = require('./src/music/');
-const mastodon = require('./src/mastodon');
-const twitter = require('./src/twitter');
-const web = require('./src/web');
-const wikipedia = require('./src/wikipedia');
-var path = require('path');
+// const music = require('./src/music/');
+// const mastodon = require('./src/mastodon');
+// const twitter = require('./src/twitter');
+// const web = require('./src/web');
+// const wikipedia = require('./src/wikipedia');
+// const path = require('path');
+const cpuThermal = require('./app/sayCPUThermal');
+const sayTweet = require('./app/sayTweet');
+sayTweet.sayTweet('テスト : ' + cpuThermal.get());
 // var fs = require('fs');
 // var localPath = music.getRandomMusicPath();
 // music.play(localPath);
 // mastodon.toot('ラズパイからNodejsを使用した投稿!!');
-// twitter.tweet('TEST');
 
 // fs.writeFileSync('/sys/class/gpio/export', 16);
 // fs.writeFileSync('/sys/class/gpio/gpio16/direction', 'out');
