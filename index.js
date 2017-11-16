@@ -5,8 +5,8 @@
 // const wikipedia = require('./src/wikipedia');
 // const path = require('path');
 const cpuThermal = require('./app/sayCPUThermal');
-const sayTweet = require('./app/sayTweet');
-sayTweet.sayTweet('テスト : ' + cpuThermal.get());
+const sayToot = require('./app/sayToot');
+sayToot.sayToot('テスト : ' + cpuThermal.get());
 // var fs = require('fs');
 // var localPath = music.getRandomMusicPath();
 // music.play(localPath);
