@@ -22,6 +22,18 @@ setInterval(function () {
           mei.talk(res['data'][0]['account']['display_name'] + 'さんが、投稿をお気に入りにしました', () => {
             flag = false;
           });
+        } else if (res['data'][0]['type'] === 'mention') {
+          flag = true;
+          fs.writeFileSync("/home/pi/RURI/files/latest_mastodon.txt", JSON.stringify(res['data'][0]['created_at']));
+          mei.talk(res['data'][0]['account']['display_name'] + 'さんからメンションが届きました、' + res['data'][0]['status']['content'].replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''), () => {
+            flag = false;
+          });
+        } else if (res['data'][0]['type'] === 'reblog') {
+          flag = true;
+          fs.writeFileSync("/home/pi/RURI/files/latest_mastodon.txt", JSON.stringify(res['data'][0]['created_at']));
+          mei.talk(res['data'][0]['account']['display_name'] + 'さんが、投稿をブーストしました', () => {
+            flag = false;
+          });
         }
       }
     })

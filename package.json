@@ -20,6 +20,8 @@
     "node-record-lpcm16": "^0.3.0",
     "openjtalk": "^0.1.6",
     "passport-google-oauth": "^1.0.0",
+    "qs": "1.0.0",
+    "send": "0.11.1",
     "socket.io": "^2.0.4",
     "speaker": "^0.4.0",
     "sync-request": "^4.1.0",
