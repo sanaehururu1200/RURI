@@ -1,5 +1,5 @@
-const mastodon = require('../src/mastodon');
-module.exports.sayTweet = function (text) {
+const mastodon = require('/home/pi/RURI/src/mastodon');
+module.exports.sayToot = function (text) {
   var OpenJTalk = require('openjtalk');
   var mei = new OpenJTalk();
   const execSync = require('child_process').execSync;

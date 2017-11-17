@@ -2,7 +2,7 @@ var Masto = require('mastodon-api')
 
 module.exports.toot = function(text){
   var fs = require('fs');
-  var file = fs.readFileSync("./setting.json", "utf-8");
+  var file = fs.readFileSync("/home/pi/RURI/setting.json", "utf-8");
   var json = JSON.parse(file);
   var M = new Masto({
       access_token: json['mastodon']['access_token'],
