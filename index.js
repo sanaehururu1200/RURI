@@ -4,9 +4,9 @@
 // const web = require('./src/web');
 // const wikipedia = require('./src/wikipedia');
 // const path = require('path');
-const cpuThermal = require('./app/sayCPUThermal');
-const sayToot = require('./app/sayToot');
-sayToot.sayToot('テスト : ' + cpuThermal.get());
+//const cpuThermal = require('./app/sayCPUThermal');
+//const sayToot = require('./app/sayToot');
+//sayToot.sayToot('テスト : ' + cpuThermal.get());
 // var fs = require('fs');
 // var localPath = music.getRandomMusicPath();
 // music.play(localPath);
@@ -20,3 +20,6 @@ sayToot.sayToot('テスト : ' + cpuThermal.get());
 //  fs.writeFileSync('/sys/class/gpio/unexport', 16);
 //  console.log('LEDをオフにしました');
 // });
+
+require('./app/getTootLoop')
+require('./app/getGmailLoop')

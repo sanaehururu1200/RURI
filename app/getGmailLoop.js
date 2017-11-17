@@ -1,4 +1,5 @@
 let flag = false;
+console.log('Gmail Loopを開始しました');
 setInterval(function () {
   if (flag === false) {
     const fs = require('fs');
@@ -22,8 +23,6 @@ setInterval(function () {
         })
       }
     })
-  }else{
-    console.log('skip');
   }
 }, 10000);
 
