@@ -1,6 +1,7 @@
 const mastodon = require('/home/pi/RURI/src/mastodon');
 var OpenJTalk = require('openjtalk');
 var mei = new OpenJTalk();
+let text = '';
 module.exports.sayToot = function (text) {
   const execSync = require('child_process').execSync;
   mei.talk('ツイートを開始します、内容は、' + text + '、です。', (err) => {
@@ -27,6 +28,15 @@ module.exports.getTextAndToot = function (text) {
     debug: false,
     exitOnSilence: 2
   });
+  var micInstance1 = mic({
+    rate: '16000',
+    channels: '1',
+    debug: false,
+    exitOnSilence: 2
+  });
+  var micInputStream1 = micInstance1.getAudioStream();
+  micInputStream1.pipe(fs.WriteStream('output.wav'));
+
   var micInputStream = micInstance.getAudioStream();
   micInputStream.pipe(fs.WriteStream('output.wav'));
   micInputStream.on('data', function (data) {
@@ -43,46 +53,8 @@ module.exports.getTextAndToot = function (text) {
     client.recognizeStream(audioStream, 'ja-JP').then(response => {
       if (isset(response['results'])) {
         mei.talk('投稿内容は、' + response['results'][0]['name'] + '、でよろしいですか？', function () {
-          micInputStream1.pipe(fs.WriteStream('output.wav'));
-          var micInstance1 = mic({
-            rate: '16000',
-            channels: '1',
-            debug: false,
-            exitOnSilence: 2
-          });
-          var micInputStream1 = micInstance.getAudioStream();
+          text = response['results'][0]['name'];
           micInstance1.start();
-          micInputStream1.on('data', function (data) {
-            console.log("Recieved Input Stream: " + data.length);
-          });
-        
-          micInputStream1.on('silence', function () {
-            micInstance1.stop();
-            let audioStream = fs.createReadStream('./output.wav');
-            let subscriptionKey = json.bing.key;
-            let client = new BingSpeechClient(subscriptionKey);
-            client.recognizeStream(audioStream, 'ja-JP').then(response => {
-              if (isset(response['results'])) {
-                switch (response['results'][0]['name']) {
-                  case 'はい':
-                  case 'そうだよ':
-                  case 'そう':
-                    mastodon.sayToot(response['results'][0]['name']);
-                    break;
-                  case 'いいえ':
-                  case 'ちがう':
-                  case 'ちがうよ':
-                    mei.talk('投稿しませんでした');
-                    break;
-                }
-                console.log('音声認識に成功しました');
-              } else {
-                mei.talk('すみません、聞き取れませんでした');
-                console.log('音声認識に失敗しました1');
-                console.log(JSON.stringify(response));
-              }
-            });
-          });
         })
         console.log('音声認識に成功しました');
       } else {
@@ -96,6 +68,42 @@ module.exports.getTextAndToot = function (text) {
     console.log("Got SIGNAL processExitComplete");
   });
   micInstance.start();
+
+
+  micInputStream1.on('data', function (data) {
+    console.log("Recieved Input Stream: " + data.length);
+  });
+
+  micInputStream1.on('silence', function () {
+    micInstance1.stop();
+    let audioStream = fs.createReadStream('./output.wav');
+    let subscriptionKey = json.bing.key;
+    let client = new BingSpeechClient(subscriptionKey);
+    client.recognizeStream(audioStream, 'ja-JP').then(response => {
+      if (isset(response['results'])) {
+        switch (response['results'][0]['name']) {
+          case 'はい':
+          case 'そうだよ':
+          case 'そう':
+            mastodon.sayToot(text);
+            break;
+          case 'いいえ':
+          case 'ちがう':
+          case 'ちがうよ':
+          default:
+            mei.talk('投稿しませんでした');
+            console.log(response['results'][0]['name']);
+            break;
+        }
+        console.log('音声認識に成功しました');
+      } else {
+        mei.talk('すみません、聞き取れませんでした');
+        console.log('音声認識に失敗しました');
+        console.log(JSON.stringify(response));
+      }
+    });
+  });
+
   function isset(data) {
     return (typeof (data) != 'undefined');
   }
