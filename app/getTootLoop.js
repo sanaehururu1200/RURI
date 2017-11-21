@@ -1,5 +1,8 @@
 var Masto = require('mastodon-api')
+const mpg = require('mpg123');
 let flag = false;
+let sayText = '';
+let player = new mpg.MpgPlayer();
 console.log('Toot Loopを開始しました');
 setInterval(function () {
   if (flag === false) {
@@ -19,23 +22,32 @@ setInterval(function () {
         if (res['data'][0]['type'] === 'favourite') {
           flag = true;
           fs.writeFileSync("/home/pi/RURI/files/latest_mastodon.txt", JSON.stringify(res['data'][0]['created_at']));
-          mei.talk(res['data'][0]['account']['display_name'] + 'さんが、投稿をお気に入りにしました', () => {
-            flag = false;
-          });
+          sayText = res['data'][0]['account']['display_name'] + 'さんが、投稿をお気に入りにしました';
+          player.play('/home/pi/RURI/p.mp3')
         } else if (res['data'][0]['type'] === 'mention') {
           flag = true;
           fs.writeFileSync("/home/pi/RURI/files/latest_mastodon.txt", JSON.stringify(res['data'][0]['created_at']));
-          mei.talk(res['data'][0]['account']['display_name'] + 'さんからメンションが届きました、' + res['data'][0]['status']['content'].replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, ''), () => {
-            flag = false;
-          });
+          var text = res['data'][0]['status']['content'].replace(/<("[^"]*"|'[^']*'|[^'">])*>/g)
+          console.log(text);
+          text = sayText.slice(text.indexOf(' '));
+          sayText = res['data'][0]['account']['display_name'] + 'さんからメンションが届きました、' + text;
+          console.log(sayText);
+          player.play('/home/pi/RURI/p.mp3')
         } else if (res['data'][0]['type'] === 'reblog') {
           flag = true;
           fs.writeFileSync("/home/pi/RURI/files/latest_mastodon.txt", JSON.stringify(res['data'][0]['created_at']));
-          mei.talk(res['data'][0]['account']['display_name'] + 'さんが、投稿をブーストしました', () => {
-            flag = false;
-          });
+          sayText = res['data'][0]['account']['display_name'] + 'さんが、投稿をブーストしました';
+          player.play('/home/pi/RURI/p.mp3')
         }
       }
     })
   }
 }, 5000);
+
+player.on('end', function (data) {
+  var OpenJTalk = require('openjtalk');
+  var mei = new OpenJTalk();
+  mei.talk(sayText, () => {
+    flag = false;
+  })
+})

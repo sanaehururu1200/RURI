@@ -1,4 +1,7 @@
 let flag = false;
+let lastText = '';
+const mpg = require('mpg123');
+let player = new mpg.MpgPlayer();
 console.log('Gmail Loopを開始しました');
 setInterval(function () {
   if (flag === false) {
@@ -17,14 +20,21 @@ setInterval(function () {
       let remoteText = d.snippet;
       if (localText !== remoteText) {
         flag = true;
+        lastText = remoteText;
         fs.writeFileSync("/home/pi/RURI/files/latest_mail.txt", remoteText);
-        mei.talk('新着メールを読み上げます、' + remoteText, () => {
-          flag = false;
-        })
+        player.play('/home/pi/RURI/p.mp3')
       }
     })
   }
 }, 10000);
+player.on('end', function (data) {
+  var OpenJTalk = require('openjtalk');
+  var mei = new OpenJTalk();
+  mei.talk('新着メールを読み上げます、' + lastText, () => {
+    flag = false;
+  })
+})
+
 
 function refreshRequest() {
   var request = require('sync-request');
