@@ -4,13 +4,13 @@ var mei = new OpenJTalk();
 let text = '';
 module.exports.sayToot = function (text) {
   const execSync = require('child_process').execSync;
-  mei.talk('ツイートを開始します、内容は、' + text + '、です。', (err) => {
+  mei.talk('トゥートを開始します、内容は、' + text + '、です。', (err) => {
     mastodon.toot(text);
     if (err) {
       mei.talk('エラーが発生しました');
       console.log(err);
     }
-    mei.talk('ツイートが完了しました');
+    mei.talk('トゥートが完了しました');
   });
 }
 
@@ -81,9 +81,11 @@ module.exports.getTextAndToot = function (text) {
     let client = new BingSpeechClient(subscriptionKey);
     client.recognizeStream(audioStream, 'ja-JP').then(response => {
       if (isset(response['results'])) {
+        
         switch (response['results'][0]['name']) {
           case 'はい':
           case 'そうだよ':
+          case 'あたりまえだよなぁ':
           case 'そう':
             mastodon.sayToot(text);
             break;

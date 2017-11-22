@@ -55,6 +55,4 @@
 const mastodon = require('/home/pi/RURI/app/sayToot');
 var OpenJTalk = require('openjtalk');
 var mei = new OpenJTalk();
-mei.talk('トゥートですね、トゥート内容をどうぞ。', function () {
-  mastodon.getTextAndToot();  
-});
+mastodon.getTextAndToot();  

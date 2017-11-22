@@ -23,3 +23,4 @@
 
 require('./app/getTootLoop')
 require('./app/getGmailLoop')
+require('./app/gpio');
